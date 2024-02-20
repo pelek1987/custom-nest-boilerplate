@@ -1,7 +1,9 @@
+import * as path from 'path';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { LoggerModule } from 'nestjs-pino';
-import * as path from 'path';
+import { APP_FILTER } from '@nestjs/core';
+import { AllErrorsFilter } from './errors/all-errors.filter';
 
 @Module({
   imports: [
@@ -17,6 +19,11 @@ import * as path from 'path';
     }),
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: AllErrorsFilter,
+    },
+  ],
 })
 export class AppModule {}
