@@ -11,8 +11,9 @@ import { Response } from 'express';
 export class AllErrorsFilter implements ExceptionFilter {
   catch(exception: any, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
+    // const request = ctx.getRequest<Request>();
     const response = ctx.getResponse<Response>();
-
+    // this.logger.debug(`Client preferred language is ${request['language']}`);
     if (exception instanceof HttpException) {
       return response
         .status(exception.getStatus())

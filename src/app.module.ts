@@ -1,9 +1,10 @@
 import * as path from 'path';
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { LoggerModule } from 'nestjs-pino';
 import { APP_FILTER } from '@nestjs/core';
 import { AllErrorsFilter } from './errors/all-errors.filter';
+import { LanguageExtractorMiddleware } from './middlewares/language-extractor.middleware';
 
 @Module({
   imports: [
@@ -26,4 +27,8 @@ import { AllErrorsFilter } from './errors/all-errors.filter';
     },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LanguageExtractorMiddleware).forRoutes('*');
+  }
+}
